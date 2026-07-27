@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Choose implementation -->
+    <bean id="notificationService" class="org.bank.EmailNotificationService"/>
+
+
+    <!-- Inject dependency -->
+    <bean id="fundTransferService" class="org.bank.FundTransferService">
+        <constructor-arg ref="notificationService"/>
+    </bean>
+
+</beans>
