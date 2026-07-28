@@ -1,6 +1,7 @@
 package org.bank;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,7 +11,7 @@ public class FundTransferService {
 
 
     @Autowired
-    public FundTransferService(NotificationService notificationService) {
+    public FundTransferService(@Qualifier("emailNotificationService") NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 

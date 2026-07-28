@@ -14,19 +14,9 @@ public class App
     {
 
 //        // Load Spring configuration from applicationContext.xml
-//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//
-//
-//        // Get FundTransferService bean
-//        FundTransferService service = context.getBean(FundTransferService.class);
-//
-//
-//        // Perform a demo transfer
-//        service.transferFunds("ACC123", "ACC456", 5000.0);
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        PaymentService paymentService = new CreditCardPayment();
-
-        OrderService orderService =  new OrderService(paymentService);
+        OrderService orderService =  context.getBean(OrderService.class);
 
         orderService.placeOrder(500);
 
