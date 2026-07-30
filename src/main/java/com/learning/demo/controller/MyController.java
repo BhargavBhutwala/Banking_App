@@ -16,4 +16,9 @@ public class MyController {
     public List<String> getUsers() {
         return users;
     }
+
+    @GetMapping("/test")
+    public String hello() {
+        return "hello";
+    }
 }
