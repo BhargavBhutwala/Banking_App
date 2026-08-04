@@ -1,6 +1,4 @@
-import type { Account } from "../models/account.js";
-
-let accounts:Account[] = [
+let accounts = [
     {
         id: 101,
         name: "Bharggav",
@@ -23,51 +21,38 @@ let accounts:Account[] = [
         balance: 7500
     }
 ];
-
 // Get all accounts
-export function getAccounts(): Account[] {
+export function getAccounts() {
     return accounts;
 }
-
 // Find account by account number
-function findAccount(accountNo: string): Account | undefined {
+function findAccount(accountNo) {
     return accounts.find(account => account.accountNo === accountNo);
 }
-
 // Deposit money
-export function deposit(accountNo: string, amount: number): Account {
+export function deposit(accountNo, amount) {
     const account = findAccount(accountNo);
-
     if (!account) {
         throw new Error("Account not found");
     }
-
     if (amount <= 0) {
         throw new Error("Deposit amount must be greater than 0");
     }
-
     account.balance = (account.balance ?? 0) + amount;
-
     return account;
 }
-
 // Withdraw money
-export function withdraw(accountNo: string, amount: number): Account {
+export function withdraw(accountNo, amount) {
     const account = findAccount(accountNo);
-
     if (!account) {
         throw new Error("Account not found");
     }
-
     if (amount <= 0) {
         throw new Error("Withdrawal amount must be greater than 0");
     }
-
     if ((account.balance ?? 0) < amount) {
         throw new Error("Insufficient balance");
     }
-
     account.balance = (account.balance ?? 0) - amount;
-
     return account;
 }
