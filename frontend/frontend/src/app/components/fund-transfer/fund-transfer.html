@@ -1,0 +1,35 @@
+<h2>Fund Transfer</h2>
+
+<div class="transfer-form">
+
+  <label>From Account</label>
+
+  <input
+    type="text"
+    [(ngModel)]="fromAccount"
+    placeholder="Enter sender account"
+  >
+
+  <label>To Account</label>
+
+  <input
+    type="text"
+    [(ngModel)]="toAccount"
+    placeholder="Enter receiver account"
+  >
+
+  <label>Amount</label>
+
+  <input
+    type="number"
+    [(ngModel)]="amount"
+    placeholder="Enter amount"
+  >
+
+  <button (click)="transfer()">
+    Transfer Funds
+  </button>
+
+</div>
+
+<p>{{ message }}</p>

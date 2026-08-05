@@ -1,0 +1,75 @@
+<h2>Bank Transactions</h2>
+
+<div class="transaction-form">
+
+  <label>Account Number</label>
+  <input
+    type="text"
+    [(ngModel)]="transaction.accountNo"
+    placeholder="Enter account number"
+  >
+
+  <label>Transaction Type</label>
+  <select [(ngModel)]="transaction.type">
+    <option value="Deposit">Deposit</option>
+    <option value="Withdraw">Withdraw</option>
+  </select>
+
+  <label>Amount</label>
+  <input
+    type="number"
+    [(ngModel)]="transaction.amount"
+    placeholder="Enter amount"
+  >
+
+  <label>Description</label>
+  <input
+    type="text"
+    [(ngModel)]="transaction.description"
+    placeholder="Enter description"
+  >
+
+  <button (click)="addTransaction()">
+    Add Transaction
+  </button>
+
+</div>
+
+<hr>
+
+<h3>Transaction History</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account No</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    @for (transaction of transactions; track $index) {
+
+      <tr>
+        <td>{{ transaction.accountNo }}</td>
+        <td>{{ transaction.type }}</td>
+        <td>₹{{ transaction.amount }}</td>
+        <td>{{ transaction.description }}</td>
+        <td>{{ transaction.date }}</td>
+
+        <td>
+          <button (click)="deleteTransaction($index)">
+            Delete
+          </button>
+        </td>
+      </tr>
+
+    }
+
+  </tbody>
+</table>

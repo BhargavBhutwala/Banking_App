@@ -1,0 +1,239 @@
+<h2>Banking Login & Fund Transfer</h2>
+
+<form [formGroup]="loginForm" (ngSubmit)="submit()">
+
+  <!-- Username -->
+
+  <div>
+    <label>Username</label>
+
+    <input
+      type="text"
+      formControlName="username"
+      placeholder="Enter username"
+    >
+
+    @if (
+      loginForm.get('username')?.touched &&
+      loginForm.get('username')?.hasError('required')
+    ) {
+      <p class="error">
+        Username is required.
+      </p>
+    }
+  </div>
+
+
+  <!-- Password -->
+
+  <div>
+    <label>Password</label>
+
+    <input
+      type="password"
+      formControlName="password"
+      placeholder="Enter password"
+    >
+
+    @if (
+      loginForm.get('password')?.touched &&
+      loginForm.get('password')?.hasError('required')
+    ) {
+      <p class="error">
+        Password is required.
+      </p>
+    }
+
+    @if (
+      loginForm.get('password')?.touched &&
+      loginForm.get('password')?.hasError('minlength')
+    ) {
+      <p class="error">
+        Password must contain at least 6 characters.
+      </p>
+    }
+  </div>
+
+
+  <hr>
+
+
+  <!-- From Account -->
+
+  <div>
+    <label>From Account</label>
+
+    <input
+      type="text"
+      formControlName="fromAccount"
+      placeholder="Example: ACC101"
+    >
+
+    @if (
+      loginForm.get('fromAccount')?.touched &&
+      loginForm.get('fromAccount')?.hasError('required')
+    ) {
+      <p class="error">
+        From account is required.
+      </p>
+    }
+  </div>
+
+
+  <!-- To Account -->
+
+  <div>
+    <label>To Account</label>
+
+    <input
+      type="text"
+      formControlName="toAccount"
+      placeholder="Example: ACC102"
+    >
+
+    @if (loginForm.get('toAccount')?.pending) {
+      <p class="info">
+        Checking account...
+      </p>
+    }
+
+    @if (
+      loginForm.get('toAccount')?.hasError('sameAccount')
+    ) {
+      <p class="error">
+        Sender and receiver accounts cannot be the same.
+      </p>
+    }
+
+    @if (
+      loginForm.get('toAccount')?.hasError('accountNotFound')
+    ) {
+      <p class="error">
+        Account does not exist.
+      </p>
+    }
+  </div>
+
+
+  <!-- Amount -->
+
+  <div>
+    <label>Transfer Amount</label>
+
+    <input
+      type="number"
+      formControlName="amount"
+    >
+
+    @if (
+      loginForm.get('amount')?.touched &&
+      loginForm.get('amount')?.hasError('min')
+    ) {
+      <p class="error">
+        Transfer amount must be at least ₹100.
+      </p>
+    }
+  </div>
+
+
+  <hr>
+
+
+  <!-- Beneficiaries -->
+
+  <h3>Beneficiaries</h3>
+
+  <div formArrayName="beneficiaries">
+
+    @for (
+      beneficiary of beneficiaries.controls;
+      track $index
+    ) {
+
+      <div
+        class="beneficiary"
+        [formGroupName]="$index"
+      >
+
+        <h4>Beneficiary {{ $index + 1 }}</h4>
+
+        <label>Name</label>
+
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Beneficiary name"
+        >
+
+        <label>Account Number</label>
+
+        <input
+          type="text"
+          formControlName="accountNo"
+          placeholder="Example: ACC102"
+        >
+
+        @if (
+          beneficiary.get('accountNo')?.pending
+        ) {
+          <p class="info">
+            Checking account...
+          </p>
+        }
+
+        @if (
+          beneficiary.get('accountNo')?.hasError('accountNotFound')
+        ) {
+          <p class="error">
+            Account does not exist.
+          </p>
+        }
+
+        <label>Amount</label>
+
+        <input
+          type="number"
+          formControlName="amount"
+        >
+
+        @if (
+          beneficiary.get('amount')?.hasError('min')
+        ) {
+          <p class="error">
+            Amount must be at least ₹100.
+          </p>
+        }
+
+        <button
+          type="button"
+          (click)="removeBeneficiary($index)"
+        >
+          Remove
+        </button>
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <button
+    type="button"
+    (click)="addBeneficiary()"
+  >
+    + Add Beneficiary
+  </button>
+
+
+  <br><br>
+
+
+  <button
+    type="submit"
+    [disabled]="loginForm.invalid"
+  >
+    Login & Transfer
+  </button>
+
+</form>
