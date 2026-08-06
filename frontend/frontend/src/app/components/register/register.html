@@ -1,8 +1,8 @@
-<h2>Banking Login</h2>
+<h2>Create Account</h2>
 
 <form
-    [formGroup]="loginForm"
-    (ngSubmit)="login()">
+    [formGroup]="registerForm"
+    (ngSubmit)="register()">
 
     <label>Username</label>
 
@@ -12,8 +12,8 @@
         placeholder="Enter username">
 
     @if (
-        loginForm.get('username')?.touched &&
-        loginForm.get('username')?.hasError('required')
+        registerForm.get('username')?.touched &&
+        registerForm.get('username')?.hasError('required')
     ) {
 
         <p class="error">
@@ -21,8 +21,6 @@
         </p>
 
     }
-
-    <br>
 
     <label>Password</label>
 
@@ -32,8 +30,8 @@
         placeholder="Enter password">
 
     @if (
-        loginForm.get('password')?.touched &&
-        loginForm.get('password')?.hasError('required')
+        registerForm.get('password')?.touched &&
+        registerForm.get('password')?.hasError('required')
     ) {
 
         <p class="error">
@@ -43,8 +41,8 @@
     }
 
     @if (
-        loginForm.get('password')?.touched &&
-        loginForm.get('password')?.hasError('minlength')
+        registerForm.get('password')?.touched &&
+        registerForm.get('password')?.hasError('minlength')
     ) {
 
         <p class="error">
@@ -53,11 +51,11 @@
 
     }
 
-    <br><br>
+    <br>
 
     <button type="submit">
 
-        Login
+        Register
 
     </button>
 
@@ -67,11 +65,11 @@
 
 <p>
 
-Don't have an account?
+Already have an account?
 
-<a routerLink="/register">
+<a routerLink="/login">
 
-Register Here
+Login Here
 
 </a>
 

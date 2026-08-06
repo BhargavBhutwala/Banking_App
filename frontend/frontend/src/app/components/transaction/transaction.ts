@@ -1,66 +1,106 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MaskAccountPipe } from '../pipes/mask-account-pipe';
+import { Component,OnInit } from '@angular/core';
+
 import { CurrencyPipe } from '@angular/common';
 
-interface Transaction{
+import { Router } from '@angular/router';
 
-  accountNo: string;
-  type: string;
-  amount: number;
-  description: string;
-  date: string;
-}
+import { BankingService,Transfer } from '../../services/banking';
+
+import { MaskAccountPipe } from '../pipes/mask-account-pipe';
+
+import { AuthService } from '../../services/auth';
+import { SharedModule } from '../../shared/shared-module';
 
 @Component({
-  selector: 'app-transaction',
-  imports: [FormsModule, MaskAccountPipe, CurrencyPipe],
-  templateUrl: './transaction.html',
-  styleUrl: './transaction.css',
-  standalone: true
+
+selector:'app-transaction',
+
+standalone:true,
+
+imports:[SharedModule],
+
+templateUrl:'./transaction.html',
+
+styleUrl:'./transaction.css'
+
 })
-export class TransactionComponent {
 
-  transaction: Transaction = {
+export class TransactionComponent implements OnInit{
 
-    accountNo: '',
-    type: 'Deposit',
-    amount: 0,
-    description: '',
-    date: ''
-  };
+transfers:Transfer[]=[];
 
-  transactions: Transaction[] = [];
+constructor(
 
-  addTransaction(): void {
+private banking:BankingService,
 
-    if (
-      !this.transaction.accountNo ||
-      !this.transaction.amount ||
-      !this.transaction.description
-    ) {
-      alert('Please enter all required details');
-      return;
-    }
+private auth:AuthService,
 
-    const newTransaction: Transaction = {
-      ...this.transaction,
-      date: new Date().toLocaleString()
-    };
+private router:Router
 
-    this.transactions.push(newTransaction);
+){}
 
-    // Clear form
-    this.transaction = {
-      accountNo: '',
-      type: 'Deposit',
-      amount: 0,
-      description: '',
-      date: ''
-    };
-  }
+ngOnInit(){
 
-  deleteTransaction(index: number): void {
-    this.transactions.splice(index, 1);
-  }
+this.loadTransfers();
+
+}
+
+loadTransfers(){
+
+this.banking.getTransfers()
+
+.subscribe(data=>{
+
+this.transfers=data;
+
+});
+
+}
+
+deleteTransfer(id:number){
+
+this.banking.deleteTransfer(id)
+
+.subscribe(()=>{
+
+this.loadTransfers();
+
+});
+
+}
+
+updateTransfer(id:number){
+
+const amount=Number(prompt("Enter Amount"));
+
+if(amount<=0){
+
+return;
+
+}
+
+this.banking.updateTransfer(id,amount)
+
+.subscribe(()=>{
+
+this.loadTransfers();
+
+});
+
+}
+
+logout(){
+
+this.auth.logout();
+
+this.router.navigate(['/login']);
+
+}
+
+goDashboard(){
+
+this.router.navigate(['/dashboard']);
+
+}
+
 }

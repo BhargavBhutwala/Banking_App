@@ -1,75 +1,87 @@
-<h2>Bank Transactions</h2>
+<h2>Transactions</h2>
 
-<div class="transaction-form">
+<button (click)="goDashboard()">
 
-  <label>Account Number</label>
-  <input
-    type="text"
-    [(ngModel)]="transaction.accountNo"
-    placeholder="Enter account number"
-  >
+Dashboard
 
-  <label>Transaction Type</label>
-  <select [(ngModel)]="transaction.type">
-    <option value="Deposit">Deposit</option>
-    <option value="Withdraw">Withdraw</option>
-  </select>
+</button>
 
-  <label>Amount</label>
-  <input
-    type="number"
-    [(ngModel)]="transaction.amount"
-    placeholder="Enter amount"
-  >
+&nbsp;
 
-  <label>Description</label>
-  <input
-    type="text"
-    [(ngModel)]="transaction.description"
-    placeholder="Enter description"
-  >
+<button (click)="logout()">
 
-  <button (click)="addTransaction()">
-    Add Transaction
-  </button>
+Logout
 
-</div>
+</button>
 
 <hr>
 
-<h3>Transaction History</h3>
+<table border="1" cellpadding="10">
 
-<table>
-  <thead>
-    <tr>
-      <th>Account No</th>
-      <th>Type</th>
-      <th>Amount</th>
-      <th>Description</th>
-      <th>Date</th>
-      <th>Action</th>
-    </tr>
-  </thead>
+<tr>
 
-  <tbody>
+<th>ID</th>
 
-    @for (transaction of transactions; track $index) {
+<th>From</th>
 
-      <tr>
-        <td>{{ transaction.accountNo | maskAccount }}</td>
-        <td>{{ transaction.type }}</td>
-        <td>{{ transaction.amount | currency:'INR':'symbol':'1.2-2' }}</td>
-        <td>{{ transaction.description }}</td>
-        <td>{{ transaction.date }}</td>
+<th>To</th>
 
-        <td>
-          <button (click)="deleteTransaction($index)">
-            Delete
-          </button>
-        </td>
-      </tr>
+<th>Amount</th>
 
-    }
+<th>Action</th>
 
-  </tbody>
+</tr>
+
+@for(transfer of transfers;track transfer.id){
+
+<tr>
+
+<td>
+
+{{transfer.id}}
+
+</td>
+
+<td>
+
+{{transfer.fromAccount | maskAccount}}
+
+</td>
+
+<td>
+
+{{transfer.toAccount | maskAccount}}
+
+</td>
+
+<td>
+
+{{transfer.amount | currency:'INR'}}
+
+</td>
+
+<td>
+
+<button
+
+(click)="updateTransfer(transfer.id)">
+
+Update
+
+</button>
+
+<button
+
+(click)="deleteTransfer(transfer.id)">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+}
+
 </table>

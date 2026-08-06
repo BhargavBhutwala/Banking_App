@@ -1,100 +1,92 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { BankingService } from '../../services/banking';
-import { CurrencyPipe } from '@angular/common';
-import { MaskAccountPipe } from '../pipes/mask-account-pipe';
+import { SharedModule } from '../../shared/shared-module';
 
 @Component({
-  selector: 'app-fund-transfer',
-  standalone: true,
-  imports: [FormsModule, CurrencyPipe, MaskAccountPipe],
-  templateUrl: './fund-transfer.html',
-  styleUrl: './fund-transfer.css'
+
+selector:'app-fund-transfer',
+
+standalone:true,
+
+imports:[FormsModule, SharedModule],
+
+templateUrl:'./fund-transfer.html',
+
+styleUrl:'./fund-transfer.css'
+
 })
-export class FundTransfer implements OnInit {
 
-  fromAccount = "";
-  toAccount = "";
-  amount = 0;
+export class FundTransfer{
 
-  message = "";
+constructor(
 
-  transfers: any[] = [];
+private banking:BankingService,
 
-  constructor(private bankingService: BankingService) {}
+private router:Router
 
-  ngOnInit(): void {
+){}
 
-    this.loadTransfers();
+fromAccount='';
 
-  }
+toAccount='';
 
-  loadTransfers(): void {
+amount=0;
 
-    this.bankingService.getTransfers()
-      .subscribe(data => {
+message='';
 
-        this.transfers = data;
+transfer(){
 
-      });
+if(
 
-  }
+!this.fromAccount ||
 
-  transfer(): void {
+!this.toAccount ||
 
-    const request = {
+this.amount<=0
 
-      fromAccount: this.fromAccount,
-      toAccount: this.toAccount,
-      amount: this.amount
+){
 
-    };
+alert("Enter valid details");
 
-    this.bankingService.transferFunds(request)
-      .subscribe(res => {
+return;
 
-        this.message = "Fund transferred successfully.";
+}
 
-        this.loadTransfers();
+this.banking.transferFunds({
 
-        this.fromAccount = "";
-        this.toAccount = "";
-        this.amount = 0;
+fromAccount:this.fromAccount,
 
-      });
+toAccount:this.toAccount,
 
-  }
+amount:this.amount
 
-  deleteTransfer(id: number): void {
+}).subscribe(()=>{
 
-    this.bankingService.deleteTransfer(id)
-      .subscribe(() => {
+this.message="Transfer Successful";
 
-        this.message = "Transfer deleted.";
+this.fromAccount='';
 
-        this.loadTransfers();
+this.toAccount='';
 
-      });
+this.amount=0;
 
-  }
+});
 
-  updateAmount(id: number): void {
+}
 
-    const amount = Number(prompt("Enter new amount"));
+viewTransactions(){
 
-    if (amount <= 0) {
-      return;
-    }
+this.router.navigate(['/transactions']);
 
-    this.bankingService.updateTransfer(id, amount)
-      .subscribe(() => {
+}
 
-        this.message = "Transfer updated.";
+goDashboard(){
 
-        this.loadTransfers();
+this.router.navigate(['/dashboard']);
 
-      });
-
-  }
+}
 
 }

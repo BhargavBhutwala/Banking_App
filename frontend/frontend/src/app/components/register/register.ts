@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
 import {
-  ReactiveFormsModule,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'app-register',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     RouterLink
   ],
-  templateUrl: './login-form.html',
-  styleUrl: './login-form.css'
+  templateUrl: './register.html',
+  styleUrl: './register.css'
 })
-export class LoginFormComponent {
+export class RegisterComponent {
 
-  loginForm: FormGroup;
+  registerForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +28,7 @@ export class LoginFormComponent {
     private router: Router
   ) {
 
-    this.loginForm = this.fb.group({
+    this.registerForm = this.fb.group({
 
       username: [
         '',
@@ -47,35 +47,35 @@ export class LoginFormComponent {
 
   }
 
-  login(): void {
+  register(): void {
 
-    if (this.loginForm.invalid) {
+    if (this.registerForm.invalid) {
 
-      this.loginForm.markAllAsTouched();
+      this.registerForm.markAllAsTouched();
 
       return;
 
     }
 
-    const success = this.auth.login(
+    const success = this.auth.register(
 
-      this.loginForm.value.username!,
+      this.registerForm.value.username!,
 
-      this.loginForm.value.password!
+      this.registerForm.value.password!
 
     );
 
     if (success) {
 
-      alert("Login Successful");
+      alert("Registration Successful");
 
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/login']);
 
     }
 
     else {
 
-      alert("Invalid Username or Password");
+      alert("Username already exists");
 
     }
 

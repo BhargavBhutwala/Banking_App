@@ -1,135 +1,53 @@
 <h2>Fund Transfer</h2>
 
-<div class="transfer-form">
+<label>From Account</label>
 
-  <label>From Account</label>
+<input
+[(ngModel)]="fromAccount">
 
-  <input
-    type="text"
-    [(ngModel)]="fromAccount"
-    placeholder="Enter sender account"
-  >
+<br><br>
 
-  <label>To Account</label>
+<label>To Account</label>
 
-  <input
-    type="text"
-    [(ngModel)]="toAccount"
-    placeholder="Enter receiver account"
-  >
+<input
+[(ngModel)]="toAccount">
 
-  <label>Amount</label>
+<br><br>
 
-  <input
-    type="number"
-    [(ngModel)]="amount"
-    placeholder="Enter amount"
-  >
+<label>Amount</label>
 
-  <button (click)="transfer()">
-    Transfer Funds
-  </button>
+<input
+type="number"
+[(ngModel)]="amount">
 
-</div>
+<br><br>
 
-<hr>
+<button (click)="transfer()">
 
-<!-- <h3>Transfer History</h3>
+Transfer
 
-<table border="1" cellpadding="8">
+</button>
 
-  <thead>
+&nbsp;
 
-    <tr>
+<button (click)="viewTransactions()">
 
-      <th>ID</th>
-      <th>From Account</th>
-      <th>To Account</th>
-      <th>Amount</th>
-      <th>Actions</th>
+Transactions
 
-    </tr>
+</button>
 
-  </thead>
+&nbsp;
 
-  <tbody>
+<button (click)="goDashboard()">
 
-    @for (transfer of transfers; track transfer.id) {
+Dashboard
 
-      <tr>
+</button>
 
-        <td>{{ transfer.id }}</td>
+<br><br>
 
-        <td>{{ transfer.fromAccount }}</td>
+<p>
 
-        <td>{{ transfer.toAccount }}</td>
+{{message}}
 
-        <td>{{ transfer.amount }}</td>
-
-        <td>
-
-          <button (click)="updateAmount(transfer.id)">
-            Update
-          </button>
-
-          <button (click)="deleteTransfer(transfer.id)">
-            Delete
-          </button>
-
-        </td>
-
-      </tr>
-
-    }
-
-  </tbody>
-
-</table> -->
-
-<p>{{ message }}</p>
-
-<hr>
-
-<h3>Transfer History</h3>
-
-<table border="1" cellpadding="10">
-
-    <tr>
-
-        <th>ID</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Amount</th>
-        <th>Action</th>
-
-    </tr>
-
-    @for (transfer of transfers; track transfer.id) {
-
-    <tr>
-
-        <td>{{ transfer.id }}</td>
-
-        <td>{{ transfer.fromAccount | maskAccount }}</td>
-        
-        <td>{{ transfer.toAccount | maskAccount }}</td>
-
-        <td>{{ transfer.amount | currency:'INR' }}</td>
-
-        <td>
-
-            <button (click)="updateAmount(transfer.id)">
-                Update
-            </button>
-
-            <button (click)="deleteTransfer(transfer.id)">
-                Delete
-            </button>
-
-        </td>
-
-    </tr>
-
-    }
-
-</table>
+</p>
