@@ -1,86 +1,81 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-export interface Transfer {
+export interface Transfer{
 
-  id: number;
-  fromAccount: string;
-  toAccount: string;
-  amount: number;
+    id:number;
+    fromAccount:string;
+    toAccount:string;
+    amount:number;
 
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn:'root'
 })
-export class BankingService {
+export class BankingService{
 
-  private transfers: Transfer[] = [
+    private nextId=3;
 
-    {
-      id: 1,
-      fromAccount: "ACC101",
-      toAccount: "ACC102",
-      amount: 5000
-    },
-    {
-      id: 2,
-      fromAccount: "ACC103",
-      toAccount: "ACC104",
-      amount: 2000
-    }
+    private transfers:Transfer[]=[
 
-  ];
+        {
+            id:1,
+            fromAccount:'ACC101',
+            toAccount:'ACC102',
+            amount:5000
+        },
 
-  private nextId = 3;
+        {
+            id:2,
+            fromAccount:'ACC103',
+            toAccount:'ACC104',
+            amount:3000
+        }
 
-  constructor() { }
+    ];
 
-  // GET
-  getTransfers(): Observable<Transfer[]> {
+    getTransfers():Observable<Transfer[]>{
 
-    return of(this.transfers);
-
-  }
-
-  // POST
-  transferFunds(data: Omit<Transfer, 'id'>): Observable<Transfer> {
-
-    const transfer: Transfer = {
-
-      id: this.nextId++,
-      ...data
-
-    };
-
-    this.transfers.push(transfer);
-
-    return of(transfer);
-
-  }
-
-  // DELETE
-  deleteTransfer(id: number): Observable<boolean> {
-
-    this.transfers = this.transfers.filter(t => t.id !== id);
-
-    return of(true);
-
-  }
-
-  // PATCH
-  updateTransfer(id: number, amount: number): Observable<Transfer | undefined> {
-
-    const transfer = this.transfers.find(t => t.id === id);
-
-    if (transfer) {
-
-      transfer.amount = amount;
+        return of(this.transfers);
 
     }
 
-    return of(transfer);
+    transferFunds(data:Omit<Transfer,'id'>):Observable<Transfer>{
 
-  }
+        const transfer:Transfer={
+
+            id:this.nextId++,
+            ...data
+
+        };
+
+        this.transfers.push(transfer);
+
+        return of(transfer);
+
+    }
+
+    deleteTransfer(id:number):Observable<boolean>{
+
+        this.transfers=this.transfers.filter(t=>t.id!=id);
+
+        return of(true);
+
+    }
+
+    updateTransfer(id:number,amount:number):Observable<any>{
+
+        const transfer=this.transfers.find(x=>x.id==id);
+
+        if(transfer){
+
+            transfer.amount=amount;
+
+        }
+
+        return of(transfer);
+
+    }
 
 }
