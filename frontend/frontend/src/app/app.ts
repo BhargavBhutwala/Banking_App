@@ -5,7 +5,7 @@ import { TransactionComponent } from './components/transaction/transaction';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Dashboard, TransactionComponent],
+  imports: [RouterOutlet, Dashboard],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

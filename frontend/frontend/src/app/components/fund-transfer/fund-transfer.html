@@ -32,4 +32,104 @@
 
 </div>
 
+<hr>
+
+<!-- <h3>Transfer History</h3>
+
+<table border="1" cellpadding="8">
+
+  <thead>
+
+    <tr>
+
+      <th>ID</th>
+      <th>From Account</th>
+      <th>To Account</th>
+      <th>Amount</th>
+      <th>Actions</th>
+
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    @for (transfer of transfers; track transfer.id) {
+
+      <tr>
+
+        <td>{{ transfer.id }}</td>
+
+        <td>{{ transfer.fromAccount }}</td>
+
+        <td>{{ transfer.toAccount }}</td>
+
+        <td>{{ transfer.amount }}</td>
+
+        <td>
+
+          <button (click)="updateAmount(transfer.id)">
+            Update
+          </button>
+
+          <button (click)="deleteTransfer(transfer.id)">
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    }
+
+  </tbody>
+
+</table> -->
+
 <p>{{ message }}</p>
+
+<hr>
+
+<h3>Transfer History</h3>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+
+        <th>ID</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Amount</th>
+        <th>Action</th>
+
+    </tr>
+
+    @for (transfer of transfers; track transfer.id) {
+
+    <tr>
+
+        <td>{{ transfer.id }}</td>
+
+        <td>{{ transfer.fromAccount | maskAccount }}</td>
+        
+        <td>{{ transfer.toAccount | maskAccount }}</td>
+
+        <td>{{ transfer.amount | currency:'INR' }}</td>
+
+        <td>
+
+            <button (click)="updateAmount(transfer.id)">
+                Update
+            </button>
+
+            <button (click)="deleteTransfer(transfer.id)">
+                Delete
+            </button>
+
+        </td>
+
+    </tr>
+
+    }
+
+</table>

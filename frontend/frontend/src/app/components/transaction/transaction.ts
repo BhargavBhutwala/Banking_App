@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaskAccountPipe } from '../pipes/mask-account-pipe';
+import { CurrencyPipe } from '@angular/common';
 
 interface Transaction{
 
@@ -13,7 +14,7 @@ interface Transaction{
 
 @Component({
   selector: 'app-transaction',
-  imports: [FormsModule, MaskAccountPipe],
+  imports: [FormsModule, MaskAccountPipe, CurrencyPipe],
   templateUrl: './transaction.html',
   styleUrl: './transaction.css',
   standalone: true

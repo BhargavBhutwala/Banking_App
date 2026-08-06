@@ -58,7 +58,7 @@
       <tr>
         <td>{{ transaction.accountNo | maskAccount }}</td>
         <td>{{ transaction.type }}</td>
-        <td>₹{{ transaction.amount }}</td>
+        <td>{{ transaction.amount | currency:'INR':'symbol':'1.2-2' }}</td>
         <td>{{ transaction.description }}</td>
         <td>{{ transaction.date }}</td>
 
