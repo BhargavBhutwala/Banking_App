@@ -56,7 +56,7 @@
     @for (transaction of transactions; track $index) {
 
       <tr>
-        <td>{{ transaction.accountNo }}</td>
+        <td>{{ transaction.accountNo | maskAccount }}</td>
         <td>{{ transaction.type }}</td>
         <td>₹{{ transaction.amount }}</td>
         <td>{{ transaction.description }}</td>
