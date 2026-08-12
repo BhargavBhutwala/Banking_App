@@ -1,0 +1,22 @@
+[
+  {
+    "accountNo": "ACC101",
+    "holderName": "Bhargav Bhutwala",
+    "balance": 50000
+  },
+  {
+    "accountNo": "ACC102",
+    "holderName": "Rahul Sharma",
+    "balance": 25000
+  },
+  {
+    "accountNo": "ACC103",
+    "holderName": "Priya Sharma",
+    "balance": 75000
+  },
+  {
+    "accountNo": "ACC104",
+    "holderName": "Amit Patel",
+    "balance": 15000
+  }
+]

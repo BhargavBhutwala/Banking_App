@@ -1,17 +1,28 @@
 import { useState } from "react";
+
 import "./TransactionForm.css";
 
-function TransactionForm({ onTransaction }) {
 
-  const [type, setType] = useState("Deposit");
+function TransactionForm({
+  onTransaction
+}) {
 
-  const [amount, setAmount] = useState("");
+  const [type, setType] =
+    useState("Deposit");
+
+  const [amount, setAmount] =
+    useState("");
+
 
   const handleSubmit = (e) => {
 
     e.preventDefault();
 
-    if (Number(amount) <= 0) {
+
+    if (
+      !amount ||
+      Number(amount) <= 0
+    ) {
 
       alert("Invalid amount");
 
@@ -19,13 +30,19 @@ function TransactionForm({ onTransaction }) {
 
     }
 
-    onTransaction(type, Number(amount));
+
+    onTransaction(
+      type,
+      Number(amount)
+    );
+
 
     setType("Deposit");
 
     setAmount("");
 
   };
+
 
   return (
 
@@ -34,7 +51,15 @@ function TransactionForm({ onTransaction }) {
       onSubmit={handleSubmit}
     >
 
-      <h2>Transaction</h2>
+      <h2>
+        New Transaction
+      </h2>
+
+
+      <label>
+        Transaction Type
+      </label>
+
 
       <select
 
@@ -46,11 +71,21 @@ function TransactionForm({ onTransaction }) {
 
       >
 
-        <option>Deposit</option>
+        <option value="Deposit">
+          Deposit
+        </option>
 
-        <option>Withdraw</option>
+        <option value="Withdraw">
+          Withdraw
+        </option>
 
       </select>
+
+
+      <label>
+        Amount
+      </label>
+
 
       <input
 
@@ -62,13 +97,14 @@ function TransactionForm({ onTransaction }) {
           setAmount(e.target.value)
         }
 
-        placeholder="Amount"
+        placeholder="Enter Amount"
 
       />
 
-      <button>
 
-        Submit
+      <button type="submit">
+
+        Submit Transaction
 
       </button>
 
@@ -77,5 +113,6 @@ function TransactionForm({ onTransaction }) {
   );
 
 }
+
 
 export default TransactionForm;

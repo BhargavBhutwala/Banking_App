@@ -12,20 +12,27 @@ import {
 } from "react";
 
 import TransactionForm from "./TransactionForm";
+import AccountDetails from "./AccountDetails";
+
 import "./Accounts.css";
 
+
 const initialAccounts = [
+
   {
     accountNo: "ACC101",
     holderName: "Bhargav Bhutwala",
     balance: 50000
   },
+
   {
     accountNo: "ACC102",
     holderName: "Rahul Sharma",
     balance: 25000
   }
+
 ];
+
 
 function reducer(state, action) {
 
@@ -33,19 +40,26 @@ function reducer(state, action) {
 
     case "ADD":
 
-      return [...state, action.payload];
+      return [
+        ...state,
+        action.payload
+      ];
+
 
     case "DELETE":
 
       return state.filter(
-        account => account.accountNo !== action.payload
+        account =>
+          account.accountNo !== action.payload
       );
+
 
     case "UPDATE":
 
       return state.map(account =>
 
-        account.accountNo === action.payload.accountNo
+        account.accountNo ===
+        action.payload.accountNo
 
           ? {
               ...account,
@@ -56,6 +70,7 @@ function reducer(state, action) {
 
       );
 
+
     default:
 
       return state;
@@ -64,32 +79,69 @@ function reducer(state, action) {
 
 }
 
+
 function Accounts() {
 
+  // -----------------------------
   // useReducer
+  // -----------------------------
+
   const [accounts, dispatch] = useReducer(
     reducer,
     initialAccounts
   );
 
+
+  // -----------------------------
   // useState
-  const [accountNo, setAccountNo] = useState("");
-  const [holderName, setHolderName] = useState("");
-  const [balance, setBalance] = useState("");
+  // -----------------------------
 
+  const [accountNo, setAccountNo] =
+    useState("");
+
+  const [holderName, setHolderName] =
+    useState("");
+
+  const [balance, setBalance] =
+    useState("");
+
+
+  // -----------------------------
   // useTransition
-  const [isPending, startTransition] = useTransition();
+  // -----------------------------
 
+  const [isPending, startTransition] =
+    useTransition();
+
+
+  // -----------------------------
   // useDeferredValue
-  const deferredAccounts = useDeferredValue(accounts);
+  // -----------------------------
 
+  const deferredAccounts =
+    useDeferredValue(accounts);
+
+
+  // -----------------------------
   // useRef
-  const accountInputRef = useRef(null);
+  // -----------------------------
 
+  const accountInputRef =
+    useRef(null);
+
+
+  // -----------------------------
   // useId
-  const accountId = useId();
+  // -----------------------------
 
+  const accountId =
+    useId();
+
+
+  // -----------------------------
   // useEffect
+  // -----------------------------
+
   useEffect(() => {
 
     document.title =
@@ -97,48 +149,69 @@ function Accounts() {
 
   }, [accounts]);
 
+
+  // -----------------------------
   // useLayoutEffect
+  // -----------------------------
+
   useLayoutEffect(() => {
 
     accountInputRef.current?.focus();
 
   }, []);
 
+
+  // -----------------------------
   // useMemo
-  const totalBalance = useMemo(() => {
+  // -----------------------------
 
-    return accounts.reduce(
+  const totalBalance =
+    useMemo(() => {
 
-      (sum, account) => sum + account.balance,
+      return accounts.reduce(
+        (sum, account) =>
+          sum + account.balance,
+        0
+      );
 
-      0
+    }, [accounts]);
 
-    );
 
-  }, [accounts]);
-
+  // -----------------------------
   // useCallback
-  const deleteAccount = useCallback((accountNo) => {
+  // -----------------------------
 
-    dispatch({
+  const deleteAccount =
+    useCallback((accountNo) => {
 
-      type: "DELETE",
+      dispatch({
 
-      payload: accountNo
+        type: "DELETE",
 
-    });
+        payload: accountNo
 
-  }, []);
+      });
+
+    }, []);
+
+
+  // -----------------------------
+  // Add Account
+  // -----------------------------
 
   const addAccount = () => {
 
-    if (!accountNo || !holderName || !balance) {
+    if (
+      !accountNo ||
+      !holderName ||
+      !balance
+    ) {
 
       alert("Fill all fields");
 
       return;
-
     }
+
 
     startTransition(() => {
 
@@ -160,54 +233,106 @@ function Accounts() {
 
     });
 
+
     setAccountNo("");
+
     setHolderName("");
+
     setBalance("");
 
   };
 
-  const handleTransaction = (type, amount) => {
 
-    if (accounts.length === 0) return;
+  // -----------------------------
+  // Transaction
+  // -----------------------------
 
-    const account = accounts[0];
+  const handleTransaction =
+    (type, amount) => {
 
-    let newBalance = account.balance;
+      if (accounts.length === 0) {
+        return;
+      }
 
-    if (type === "Deposit")
-      newBalance += amount;
 
-    if (type === "Withdraw")
-      newBalance -= amount;
+      const account = accounts[0];
 
-    dispatch({
+      let newBalance =
+        account.balance;
 
-      type: "UPDATE",
 
-      payload: {
+      if (type === "Deposit") {
 
-        accountNo: account.accountNo,
-
-        balance: newBalance
+        newBalance += amount;
 
       }
 
-    });
 
-  };
+      if (type === "Withdraw") {
+
+        newBalance -= amount;
+
+      }
+
+
+      dispatch({
+
+        type: "UPDATE",
+
+        payload: {
+
+          accountNo:
+            account.accountNo,
+
+          balance:
+            newBalance
+
+        }
+
+      });
+
+    };
+
 
   return (
 
     <div className="accounts">
 
-      <h1>Accounts</h1>
+      <h1>🏦 Accounts</h1>
+
+
+      {/* -----------------------------
+          API Account Details
+          ----------------------------- */}
+
+      <AccountDetails />
+
+
+      {/* -----------------------------
+          Total Balance
+          ----------------------------- */}
 
       <h2>
-        Total Balance :
+
+        Total Balance:
+
         ₹ {totalBalance.toLocaleString()}
+
       </h2>
 
-      {isPending && <p>Updating...</p>}
+
+      {isPending && (
+
+        <p>
+          Updating accounts...
+        </p>
+
+      )}
+
+
+      {/* -----------------------------
+          Account Form
+          ----------------------------- */}
 
       <div className="account-form">
 
@@ -216,36 +341,62 @@ function Accounts() {
         </label>
 
         <input
+
           id={accountId}
+
           ref={accountInputRef}
+
           value={accountNo}
+
           onChange={(e) =>
             setAccountNo(e.target.value)
           }
+
+          placeholder="Account Number"
+
         />
 
+
         <input
-          placeholder="Holder Name"
+
           value={holderName}
+
           onChange={(e) =>
             setHolderName(e.target.value)
           }
+
+          placeholder="Holder Name"
+
         />
 
+
         <input
+
           type="number"
-          placeholder="Balance"
+
           value={balance}
+
           onChange={(e) =>
             setBalance(e.target.value)
           }
+
+          placeholder="Opening Balance"
+
         />
 
+
         <button onClick={addAccount}>
+
           Add Account
+
         </button>
 
       </div>
+
+
+      {/* -----------------------------
+          Accounts Table
+          ----------------------------- */}
 
       <table>
 
@@ -253,78 +404,105 @@ function Accounts() {
 
           <tr>
 
-            <th>Account</th>
+            <th>
+              Account
+            </th>
 
-            <th>Holder</th>
+            <th>
+              Holder
+            </th>
 
-            <th>Balance</th>
+            <th>
+              Balance
+            </th>
 
-            <th>Delete</th>
+            <th>
+              Delete
+            </th>
 
           </tr>
 
         </thead>
 
+
         <tbody>
 
-          {deferredAccounts.map(account => (
+          {deferredAccounts.map(
+            (account) => (
 
-            <tr key={account.accountNo}>
+              <tr
+                key={account.accountNo}
+              >
 
-              <td>{account.accountNo}</td>
+                <td>
+                  {account.accountNo}
+                </td>
 
-              <td>{account.holderName}</td>
 
-              <td>
+                <td>
+                  {account.holderName}
+                </td>
 
-                ₹ {account.balance}
 
-                {account.balance < 0 && (
+                <td>
 
-                  <p
-                    style={{
-                      color: "red"
-                    }}
+                  ₹ {account.balance.toLocaleString()}
+
+
+                  {account.balance < 0 && (
+
+                    <p
+                      style={{
+                        color: "red",
+                        fontWeight: "bold"
+                      }}
+                    >
+
+                      ⚠️ Overdraft Alert
+
+                    </p>
+
+                  )}
+
+                </td>
+
+
+                <td>
+
+                  <button
+
+                    onClick={() =>
+                      deleteAccount(
+                        account.accountNo
+                      )
+                    }
+
                   >
 
-                    ⚠️ Overdraft Alert
+                    Delete
 
-                  </p>
+                  </button>
 
-                )}
+                </td>
 
-              </td>
+              </tr>
 
-              <td>
-
-                <button
-
-                  onClick={() =>
-                    deleteAccount(
-                      account.accountNo
-                    )
-                  }
-
-                >
-
-                  Delete
-
-                </button>
-
-              </td>
-
-            </tr>
-
-          ))}
+            )
+          )}
 
         </tbody>
 
       </table>
 
+
+      {/* -----------------------------
+          Transaction Form
+          ----------------------------- */}
+
       <TransactionForm
-
-        onTransaction={handleTransaction}
-
+        onTransaction={
+          handleTransaction
+        }
       />
 
     </div>
@@ -332,5 +510,6 @@ function Accounts() {
   );
 
 }
+
 
 export default Accounts;
