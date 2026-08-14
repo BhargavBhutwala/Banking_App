@@ -1,0 +1,11 @@
+{
+    "name": "node-demo",
+    "version": "1.0.0",
+    "dependencies": {
+        "body-parser": "^2.3.0",
+        "dotenv": "^17.4.2",
+        "ejs": "^6.0.1",
+        "express": "^5.2.1",
+        "mongoose": "^9.9.2"
+    }
+}
